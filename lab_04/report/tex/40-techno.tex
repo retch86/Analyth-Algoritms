@@ -1,0 +1,50 @@
+\chapter{Технологический раздел}
+В данном разделе рассматриваются требования к программному обеспечению, средства реализации, а также приводятся листинги алгоритмов последовательной и параллельной сортировки слиянием.
+
+\section{Требования к программному обеспечению}
+Программа должна удовлетворять ряду требований:
+\begin{enumerate}
+	\item В основе распараллеливания лежат нативные потоки.
+	\item На вход алгоритму сортировки подается сгенерированный массив целых чисел. 
+\end{enumerate}
+
+\section{Средства реализации}
+Для реализации алгоритмов был выбран язык программирования C \cite{си}. В нем присутствуют нативные потоки библиотеки pthread \cite{pthread}, которая предоставляет интерфейс для создания потоков pthread\_create(), ожидание завершения всех потоков pthread\_join(). Замер времени расчета используется из библиотеки sys/time \cite{time} функцией gettimeofday().
+
+\section{Модули программы}
+\subsection{Последовательная сортировка слиянием}
+Реализация последовательной сортировки слиянием приведена на листинге \ref{lst:merge_sort}.
+\lstinputlisting[label=lst:merge_sort, caption=Последовательная сортировка слиянием, basicstyle=\footnotesize, numbers=none]{lst/merge_sort.c}
+\newpage
+Функция слияния приведена на листинге \ref{lst:merge}.
+\lstinputlisting[label=lst:merge, caption=Функция слияния, basicstyle=\footnotesize, numbers=none]{lst/merge.c}
+
+\subsection{Параллельная сортировка слиянием}
+Создание главным потоком вспомогательных и назначение им заданий приведено на листинге \ref{lst:main_thread}.
+\lstinputlisting[label=lst:main_thread, caption=Работа главного потока, basicstyle=\footnotesize, numbers=none]{lst/main_thread.c}
+\newpage
+Функция-задание для работы вспомогательного потока представлена на листинге \ref{lst:thread_merge_sort}.
+\lstinputlisting[label=lst:thread_merge_sort, caption=Задание для работы вспомогательного потока, basicstyle=\footnotesize, numbers=none]{lst/thread_merge_sort.c}
+
+Функция слияния полученных от потоков результатов представлена на листинге \ref{lst:merge_sections_of_array}.
+\lstinputlisting[label=lst:merge_sections_of_array, caption=Слияние полученных от потоков результатов, basicstyle=\footnotesize, numbers=none]{lst/merge_sections_of_array.c}
+
+\section{Тестирование}
+Для тестирования используется метод черного ящика. В данном разделе приведена таблица \ref{table:ref1}, в которой указаны классы эквивалентностей тестов. \\
+
+\begin{table}[H]
+	\centering
+	\captionsetup{singlelinecheck = false, justification=raggedleft}
+	\caption{Таблица тестов}
+	\label{table:ref1}
+	\begin{tabular}{|c|l|c|c|}
+		\hline
+		\textbf{№}              & \multicolumn{1}{c|}{\textbf{Описание теста}}                                    & \textbf{Вход}                                                                                  & \textbf{\begin{tabular}[c]{@{}c@{}}Ожидаемый\\ выход\end{tabular}}                                                  \\ \hline
+		1                       & \begin{tabular}[c]{@{}l@{}}Массив длиной 10 \\ (случайный порядок)\end{tabular} & \begin{tabular}[c]{@{}c@{}}1241 1302 7480 3885 \\ 9857 5624 3906 9271\\  982 6372\end{tabular} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}982 1241 1302 3885 \\ 3906 5624 6372 7480 \\ 9271 9857\end{tabular}} \\ \hline
+		2                       & Массив длиной 1                                                                 & 1                                                                                              & 1                                                                                                                   \\ \hline
+		\multicolumn{1}{|l|}{3} & \begin{tabular}[c]{@{}l@{}}Массив длиной 2\\ (случайный порядок)\end{tabular}   & 7480 3885                                                                                      & 3885 7480                                                                                                           \\ \hline
+	\end{tabular}
+\end{table}
+Для последовательной и параллельной реализации алгоритма сортировки слиянием все тесты пройдены успешно.
+\section*{Вывод}
+В данном разделе был обоснован выбор языка программирования, используемых функций библиотек. Реализованы функции, описанные в разделах 1 и 2, проведено их тестирование методом черного ящика по таблице \ref{table:ref1}. 

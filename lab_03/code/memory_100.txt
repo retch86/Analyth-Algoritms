@@ -1,0 +1,15 @@
+Thu Feb  8 03:02:50 2024    memory_100.dat
+
+         285 function calls in 0.001 seconds
+
+   Ordered by: call count
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      182    0.001    0.000    0.001    0.000 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:1(flip)
+       99    0.000    0.000    0.000    0.000 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:8(max_index)
+        1    0.000    0.000    0.001    0.001 {built-in method builtins.exec}
+        1    0.000    0.000    0.001    0.001 <string>:1(<module>)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.001    0.001 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:15(pancake_sort)
+
+

@@ -1,0 +1,14 @@
+Thu Feb  8 03:09:02 2024    memory_quick_100.dat
+
+         202 function calls (70 primitive calls) in 0.000 seconds
+
+   Ordered by: call count
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    133/1    0.000    0.000    0.000    0.000 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:37(quick_sort)
+       66    0.000    0.000    0.000    0.000 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:24(partition)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.exec}
+        1    0.000    0.000    0.000    0.000 <string>:1(<module>)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+

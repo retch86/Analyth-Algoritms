@@ -1,0 +1,68 @@
+\chapter{Технологический раздел}
+В данном разделе приводятся требования к программному обеспечению, выбор средств реализации и модули программы.
+\section{Требования к программному обеспечению}
+Программа должна отвечать следующим требованиям:
+\begin{itemize}
+	\item на вход программе подаются два массива сгенерированных целых чисел, корректный размер которых задает пользователь;
+	\item осуществляется выбор алгоритма умножения матриц из меню;
+	\item на вход программе подаются только корректные данные;
+	\item на выходе программа выдает результат -- матрицу, полученную в результате умножения двух входных.
+\end{itemize}
+
+\section{Выбор средств реализации}
+Для реализации алгоритмов был выбран язык программирования \text{Python \cite{python}}. При замере процессорного времени используется модуль time с функцией process\_time \cite{process_time}.
+
+\section{Модули программы}
+\subsection{Стандартное умножение матриц}
+Реализация умножения матриц стандартным образом приведена на листинге \ref{lst:ordinary_multiply}.
+\lstinputlisting[label=lst:ordinary_multiply, caption=Стандартное умножение матриц, basicstyle=\scriptsize, numbers=none]{lst/ordinary_multiply.py}
+\subsection{Умножение матриц по Винограду стандартный}
+Реализация умножения матриц по Винограду приведена на листинге \ref{lst:vinograd}.
+\lstinputlisting[label=lst:vinograd, caption=Умножение матриц по Винограду, basicstyle=\scriptsize, numbers=none]{lst/vinograd.py}
+\subsection{Умножение матриц по Винограду оптимизированный}
+Реализация оптимизированного умножения матриц по Винограду приведена на листинге \ref{lst:optimized_vinograd}.
+\newpage
+\lstinputlisting[label=lst:optimized_vinograd, caption=Умножение матриц по Винограду (оптимизированный), basicstyle=\scriptsize, numbers=none]{lst/optimized_vinograd.py}
+\subsection{Умножение матриц Штрассена}
+Реализация умножения матриц Штрассена приведена на листинге \ref{lst:strassen}.
+\newpage
+\lstinputlisting[label=lst:strassen, caption=Умножение матриц Штрассена, basicstyle=\scriptsize, numbers=none]{lst/strassen.py}
+Вызов рекурсивной функции Штрассена приведена на листинге \ref{lst:strassen_recursive} и \ref{lst:strassen_recursive_2}.
+\lstinputlisting[label=lst:strassen_recursive, caption=Вызов рекурсивной функции Штрассена. Часть 1, basicstyle=\scriptsize, numbers=none]{lst/strassen_recursive.py}
+\lstinputlisting[label=lst:strassen_recursive_2, caption=Вызов рекурсивной функции Штрассена. Часть 2, basicstyle=\scriptsize, numbers=none]{lst/strassen_recursive_2.py}
+Матричное сложение и вычитание приведены на листинге \ref{lst:matrix_ops}.
+\lstinputlisting[label=lst:matrix_ops, caption=Матричное сложение и вычитание, basicstyle=\scriptsize, numbers=none]{lst/matrix_ops.py}
+
+\section{Тестирование}
+Для тестирования используется метод черного ящика. В данном разделе приведена таблица \ref{table:ref1}, в которой указаны классы эквивалентностей тестов.
+\begin{table}[H]
+	\centering
+	\captionsetup{singlelinecheck = false, justification=raggedleft}
+	\caption{Таблица тестов}
+	\label{table:ref1}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		№ &Описание теста & Матрица 1  &  Матрица 2   &  Ожидаемый результат\\\hline
+		1& Квадратный размер  & $\begin{pmatrix}6 & 9 & 8\\0 & 3 & 6\\4 & 9 & 5\end{pmatrix}$
+		& $\begin{pmatrix}9 & 6 & 0\\2 & 3 & 5\\6 & 8 & 7\end{pmatrix}$
+		& $\begin{pmatrix}120 & 127 & 101\\42 & 57 & 57\\84 & 91 & 80\end{pmatrix}$
+		\\ \hline
+		2& Разный размер	  & $\begin{pmatrix}2 & 3 & 2\\3 & 9 & 2\end{pmatrix}$
+		& $\begin{pmatrix}2 & 4\\1 & 7\\4 & 1\end{pmatrix}$
+		& $\begin{pmatrix}15 & 31\\23 & 77\end{pmatrix}$
+		\\ \hline
+		3&Разный размер		& $\begin{pmatrix}5 & 1\\0 & 4\\6 & 4\end{pmatrix}$
+		& $\begin{pmatrix}2 & 1 & 7\\4 & 6 & 1\end{pmatrix}$
+		& $\begin{pmatrix}14 & 11 & 36\\16 & 24 & 4\\28 & 30 & 46\end{pmatrix}$
+		\\ \hline
+		\multirow{2}{*}{4}  &Неподходящий
+		& \multirow{2}{*}{$\begin{pmatrix}5 & 1\\0 & 4\end{pmatrix}$}
+		& \multirow{2}{*}{$\begin{pmatrix}5 & 1\\0 & 4\end{pmatrix}$}
+		& Несоответствие\\
+		&размер & & &размеров.
+		\\ \hline
+	\end{tabular}
+\end{table}
+Для алгоритмов умножения матриц стандартным образом, по Винограду и оптимизированный по Винограду, а также Штрассена данные тесты были пройдены успешно.
+\section*{Вывод}
+В данном разделе был выбран язык программирования, средства замера процессорного времени. Реализованы функции, описанные в аналитическом разделе, и проведено их тестирование методом черного ящика по таблице \ref{table:ref1}. 

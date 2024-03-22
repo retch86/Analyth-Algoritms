@@ -1,0 +1,64 @@
+\chapter{Исследовательский раздел}
+\section{Технические характеристики}
+Технические характеристии устройства, на котором выполнялось тестирование:
+\begin{itemize}
+	\item операционная система: Windows 10 Pro;
+	\item память: 8 GiB;
+	\item процессор: Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz   1.80 GHz.
+\end{itemize}
+Тестирование проводилось на ноутбуке, который был подключен к сети питания. Во время проведения тестирования ноутбук был нагружен только встроенными приложениями окружения, самим окружением и системой тестирования.
+
+\section{Время выполнения алгоритмов}
+
+Результаты замеров времени работы алгоритмов обработки матриц для конвейерной и ленейной реализаций представлены на рисунках \ref{img:graph_diff_quantities} -- \ref{img:graph_diff_sizes}. Замеры времени проводились в секундах и усреднялись для каждого набора одинаковых экспериментов.
+
+\begin{figure}[H]
+	\hspace*{-1cm}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}
+			[grid = major,
+			xlabel = \text{Количество матриц, шт},
+			ylabel = {Время, c},
+			xmin = -1,% xmin=0
+			width = 0.95\textwidth,
+			height=0.5\textheight,
+			legend style={at={(0.5,-0.2)},anchor=north}]
+			\addplot table{data/linear_num_matrix.txt};
+			\addplot table{data/conveyor_num_matrix.txt};
+			\legend{
+				Линейная обработка,
+				Конвейерная обработка,
+			};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимость времени обработки алгоритма от количества матриц } 
+	\label{img:graph_diff_quantities}
+\end{figure} 
+
+\begin{figure}[H]
+	\hspace*{-1cm}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}
+			[grid = major,
+			xlabel = \text{Размеры матриц, эл},
+			ylabel = {Время, c},
+			xmin = -1,% xmin=0
+			width = 0.95\textwidth,
+			height=0.5\textheight,
+			legend style={at={(0.5,-0.2)},anchor=north}]
+			\addplot table{data/linear_size_matrix.txt};
+			\addplot table{data/conveyor_size_matrix.txt};
+			\legend{
+				Линейная обработка,
+				Конвейерная обработка,
+			};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Зависимость времени обработки алгоритма от размеров матриц } 
+	\label{img:graph_diff_sizes}
+\end{figure} 
+
+\section*{Вывод}
+В результате замеров времени было установлено, что конвейерная реализация обработки лучше линейной при большом количестве матриц (в 2.5 раза при 400 матрицах, в 2.6 раза при 800 и в 2.7 при 1600). Так же конвейерная обработка показала себя лучше при увеличении размеров обрабатываемых матриц (в 2.8 раза при размере матриц 160х160, в 2.9 раза при размере 320х320 и в 2.9 раза при матрицах 640х640). Значит при большом количестве обрабатываемых матриц, а так же при матрицах большого размера стоит использовать конвейерную реализацию обработки, а не линейную.

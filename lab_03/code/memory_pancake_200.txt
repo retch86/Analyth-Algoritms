@@ -1,0 +1,15 @@
+Thu Feb  8 03:09:02 2024    memory_pancake_200.dat
+
+         592 function calls in 0.005 seconds
+
+   Ordered by: call count
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      389    0.003    0.000    0.003    0.000 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:1(flip)
+      199    0.002    0.000    0.002    0.000 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:8(max_index)
+        1    0.000    0.000    0.005    0.005 {built-in method builtins.exec}
+        1    0.000    0.000    0.004    0.004 <string>:1(<module>)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.004    0.004 /home/lev/Desktop/AA/bmstuAA/code/sorts.py:15(pancake_sort)
+
+

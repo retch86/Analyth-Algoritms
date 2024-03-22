@@ -1,0 +1,76 @@
+\chapter{Технологический раздел}
+В данном разделе приводятся требования к программному обеспечению, средства реализации, модули программы, а также функциональные тесты.
+
+\section{Требования к программному обеспечению}
+Программа должна отвечать следующим требованиям:
+\begin{itemize}
+	\item на вход программе задается количество строк и столбцов матрицы, большее 0;
+	\item все элементы матрицы имеют тип int;
+	\item на выходе программа выдает таблицу с номерами матриц, номерами этапов (лент) её обработки, временем начала обработки текущей матрицы на текущей ленте, временем окончания обработки текущей матрицы на текущей ленте.
+\end{itemize}
+
+\section{Средства реализации}
+В работе для реализации алгоритмов был выбран язык программирования C++ \cite{c++}, поскольку он предоставляет необходимую структуру данных для организации очереди std::queue \cite{queue} и средство взаимного исключения потоков std::mutex \cite{mutex}, а для создания потока используется std::thread \cite{thread}. Для замера времени работы алгоритмов используется функция std::chrono::system\_clock\_now() \cite{system_clock}.
+
+\section{Модули программы}
+На листинге \ref{lst:conveyer} представлена функция конвейерной обработки матрицы.
+\newpage
+\lstinputlisting[label=lst:conveyer, caption=Функция конвейерной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/conveyer_1.cpp}
+
+На листинге \ref{lst:parallel_stage_1} представлена функция 1-ой ленты конвейерной обработки матрицы.
+\lstinputlisting[label=lst:parallel_stage_1, caption=Функция 1-ой ленты конвейерной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/stage_1.cpp}
+
+На листинге \ref{lst:parallel_stage_2} представлена функция 2-ой ленты конвейерной обработки матрицы.
+\lstinputlisting[label=lst:parallel_stage_2, caption=Функция 2-ой ленты конвейерной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/stage_2.cpp}
+\newpage
+На листинге \ref{lst:parallel_stage_3} представлена функция 3-ей ленты конвейерной обработки матрицы.
+\lstinputlisting[label=lst:parallel_stage_3, caption=Функция 3-ей ленты конвейерной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/stage_3.cpp}
+\newpage
+На листинге \ref{lst:linear} представлена функция линейной обработки матрицы.
+\lstinputlisting[label=lst:linear, caption=Функция линейной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/linear_1.cpp}
+
+На листинге \ref{lst:stage_1} представлена функция 1-ой ленты линейной обработки матрицы.
+\lstinputlisting[label=lst:stage_1, caption=Функция 1-ой ленты линейной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/stage_1.cpp}
+
+На листинге \ref{lst:stage_2} представлена функция 2-ой ленты линейной обработки матрицы.
+\lstinputlisting[label=lst:stage_2, caption=Функция 2-ой ленты линейной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/stage_2.cpp}
+\newpage
+На листинге \ref{lst:stage_3} представлена функция 3-ей ленты линейной обработки матрицы.
+\lstinputlisting[label=lst:stage_3, caption=Функция 3-ей ленты линейной обработки матрицы, basicstyle=\scriptsize, numbers=none]{lst/stage_3.cpp}
+\section{Функциональные тесты}
+
+В таблице \ref{tbl:functional_test} приведены функциональные тесты для конвейерного и ленейного алгоритмов обработки матриц. Все тесты пройдены успешно.
+
+\begin{table}[h]
+	\begin{center}
+		\begin{threeparttable}
+			\captionsetup{justification=raggedleft,singlelinecheck=off}
+			\caption{\label{tbl:functional_test} Функциональные тесты}
+			\begin{tabular}{|c|c|c|c|c|}
+				\hline
+				Строк & Столбцов & Метод обр. & Алгоритм & Ожидаемый результат 
+				\\ \hline
+				0 & 10 & 10 & Конвейерный & Сообщение об ошибке 
+				\\ \hline
+				k & 10 & 10 & Конвейерный & Сообщение об ошибке 
+				\\ \hline
+				10 & 0 & 10 & Конвейерный & Сообщение об ошибке 
+				\\ \hline
+				10 & k & 10 & Конвейерный & Сообщение об ошибке 
+				\\ \hline
+				10 & 10 & -5 & Конвейерный & Сообщение об ошибке 
+				\\ \hline
+				10 & 10 & k & Конвейерный & Сообщение об ошибке 
+				\\ \hline
+				100 & 100 & 20 & Конвейерный & Вывод результ. таблички
+				\\ \hline
+				100 & 100 & 20 & Линейный & Вывод результ. таблички
+				\\ \hline
+				50 & 100 & 100 & Линейный & Вывод результ. таблички
+				\\ \hline
+			\end{tabular}
+		\end{threeparttable}
+	\end{center}
+\end{table}
+\section*{Вывод}
+В данном разделе были разработаны алгоритмы для конвейерного и линейного алгоритмов обработки матриц, проведено тестирование, описаны средства реализации и требования к программе.

@@ -1,0 +1,274 @@
+\chapter{Конструкторский раздел}
+В данном разделе приводятся схемы алгоритмов умножения матриц стандартным способом, Винограда и Штрассена, приводится расчет трудоемкости каждого из них, а также оптимизированной версии алгоритма Винограда.
+\section{Алгоритмы умножения матриц}
+\label{section:shemas_algo}
+\subsection{Стандартный алгоритм}
+На рисунке \ref{img:classic_multiply_mtrx} представлен алгоритм стандартного умножения матриц. 
+\imgw{classic_multiply_mtrx.pdf}{Алгоритм стандартного умножения матриц}{img:classic_multiply_mtrx}{0.57\textwidth}
+
+\subsection{Стандартный алгоритм}
+На рисунке \ref{img:classic_multiply_mtrx} представлен алгоритм стандартного умножения матриц. 
+\imgw{classic_multiply_mtrx.pdf}{Алгоритм стандартного умножения матриц}{img:classic_multiply_mtrx}{0.59\textwidth}
+
+\newpage
+\subsection{Алгоритм Винограда}
+На рисунке \ref{img:vinograd_1} и \ref{img:vinograd_2} представлен алгоритм стандартного умножения матриц. 
+\imgw{vinograd_1.pdf}{Алгоритм умножения матриц по Винограду. Часть 1}{img:vinograd_1}{\textwidth}
+
+\imgw{vinograd_2.pdf}{Алгоритм умножения матриц по Винограду. Часть 2}{img:vinograd_2}{0.25\textwidth}
+
+\subsection{Алгоритм Штрассена}
+На рисунке \ref{img:strassen1} и \ref{img:strassen2} представлен алгоритм умножения матриц Штрассена. 
+\imgw{strassen1.pdf}{Алгоритм умножения матриц Штрассена. Часть 1}{img:strassen1}{0.8\textwidth}
+
+\imgw{strassen2.pdf}{Алгоритм умножения матриц Штрассена. Часть 2}{img:strassen2}{0.45\textwidth}
+
+\newpage
+\section{Модель оценки трудоемкости алгоритмов}
+Введем модель оценки трудоемкости.
+
+\begin{enumerate}
+	\item Трудоемкость базовых операций.
+	
+	Пусть трудоемкость следующих операций равной 2: 
+	$$
+	\label{eq3:1}
+	*, /, \, //, \%, \mathrel{*}=, \mathrel{/}=.
+	$$
+	
+	Примем трудоемкость следующих операций равной 1:
+	
+	$$
+	\label{eq3:2}
+	=, +, -, +=, -=, ==, \mathrel{!}=, <, >, \leq, \geq, |, \&\&,, ||, [\ ], <<, >>.
+	$$
+	
+	\item Трудоемкость цикла.
+	
+	Пусть трудоемкость цикла определяется по формуле (\ref{eq3:3}).
+	
+	\begin{equation}
+		\label{eq3:3} 
+		f = f_{init} + f_{comp} + N_{iter} * (f_{in} + f_{inc} + f_{comp}),
+	\end{equation} 
+	где:
+	\begin{itemize}
+		\item $f_{init}$: трудоемкость инициализации переменной-счетчика;
+		\item $f_{comp}$: трудоемкость сравнения;
+		\item $N_{iter}$: номер выполняемой итерации;
+		\item $f_{in}$: трудоемкость команд из тела цикла;
+		\item $f_{inc}$: трудоемкость инкремента;
+		\item $f_{comp}$: трудоемкость сравнения.
+	\end{itemize}
+	\item Трудоемкость условного оператора. \\
+	Пусть трудоемкость самого условного перехода равна 0 в лучшем случае, когда условие не выполняется, иначе -- трудоемкости операций, относящихся к условному оператору $f_{if}$ (\ref{eq3:4}): 
+	\begin{equation}
+		\label{eq3:4}
+		f_{if} = f_{comp\_if} +
+		\begin{cases}
+			0, & \text{лучший}\\
+			f_{b}, & \text{худший}\\
+		\end{cases}.
+	\end{equation}
+	
+\end{enumerate}
+
+
+\section{Вычисление трудоемкости алгоритмов}
+Пусть во всех дальнейших вычислениях размер матрицы $A$ имеет $M \times N$, для матрицы $B$ -- $N \times Q$.
+
+\subsection{Трудоемкость алгоритма умножения матриц в стандартном случае}
+Трудоемкость $f_{stand}$ алгоритма стандартного умножения матриц вычисляется по формуле (\ref{eq3:5}):
+\begin{multline}
+	\label{eq3:5}
+	f_{stand} = {\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{=}{1}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{=}{1}} + {\underset{<}{1}} + N({\underset{++}{2}} + {\underset{[\ ]}{8}} + {\underset{*}{2}} + {\underset{=}{1}} + {\underset{+}{1}}))) = \\
+	= 14MNQ + 4MQ + 4M + 2.
+\end{multline}
+
+\subsection{Трудоемкость алгоритма умножения матриц по Винограду}
+Трудоемкость этого алгоритма состоит из следующих компонентов, определяемых по формуле (\ref{eq3:6}):
+\begin{equation}
+	\label{eq3:6}
+	f_{vin} = f_{init} + f_{precomp} + f_{fill} + f_{even},
+\end{equation}
+где:
+\begin{itemize}
+	\item $f_{init}$ - трудоемкость инициализации массивов для предварительного вычисления (\ref{eq3:7}):
+	\begin{multline}
+		\label{eq3:7}
+		f_{init} = {\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{[\ ]}{1}} + {\underset{=}{1}}) + {\underset{=}{1}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{[\ ]}{1}} + {\underset{=}{1}}) = \\
+		= 2 + 4M + 2 + 4Q = 4 + 4M + 4Q; 
+	\end{multline}
+	
+	
+	\item $f_{precomp}$ - трудоемкость предварительного заполнения строк матрицы А и столбцов матрицы B (\ref{eq3:8}):
+	\begin{multline}
+		\label{eq3:8}
+		f_{precomp} = f_{rows} + f_{columns} = {\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{=}{1}} + {\underset{<}{1}} + \frac{n}{2}({\underset{++}{2}} + {\underset{[\ ]}{6}} + {\underset{=}{1}} + {\underset{+}{2}} + {\underset{*}{6}})) + \\
+		+ {\underset{=}{1}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{=}{1}} + {\underset{<}{1}} + \frac{N}{2}({\underset{++}{2}} + {\underset{[\ ]}{6}} + {\underset{=}{1}} + {\underset{+}{2}} + {\underset{*}{6}})) = \\
+		= 2 + M(4 + \frac{N}{2} * 17) + 2 + Q(4 + \frac{N}{2} * 17) = \\
+		= 4 + 4M + 4Q + \frac{17NM}{2} + \frac{17NQ}{2};
+	\end{multline}
+	
+	
+	\item $f_{even}$ - трудоемкость заполнения результирующей матрицы (\ref{eq3:9}):
+	\begin{multline}
+		\label{eq3:9}
+		f_{fill} = {\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{=}{1}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{[\ ]}{4}} + {\underset{=}{1}} + {\underset{-}{2}} + {\underset{=}{1}} + {\underset{<}{1}} +\\
+		+ \frac{N}{2}({\underset{++}{2}} + {\underset{[\ ]}{12}} + {\underset{=}{1}} +
+		{\underset{+}{5}} + {\underset{*}{10}} + {\underset{/}{2}})) = 2 + M(4 + Q(11 + 16N)) = \\
+		= 2 + 4M + 11MQ + 16MNQ;
+	\end{multline}
+	
+	\item $f_{fill}$ - трудоемкость для дополнения умножения в случае нечетной размерности матрицы. (\ref{eq3:10}):
+	\begin{multline}
+		\label{eq3:10}
+		f_{fill} = {\underset{\%}{2}} + {\underset{==}{1}} + 
+		\begin{cases}
+			{\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{=}{1}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{[\ ]}{8}} + \\
+			+ {\underset{=}{1}} + {\underset{+}{1}} + {\underset{-}{2}})),\\
+			0\\
+		\end{cases} = \\
+		= 3 + \begin{cases}
+			2 + 4M + 14MQ,\\
+			0\\
+		\end{cases}.
+	\end{multline}
+	
+	Результирующая трудоемкость алгоритма Винограда составляет \newline $f_{vin} \approx 16MNQ$.
+\end{itemize}
+\subsection{Трудоемкость оптимизированного алгоритма умножения матриц по Винограду}
+Трудоемкость этого алгоритма определяется из следующих компонентов по формуле (\ref{eq3:11}):
+\begin{equation}
+	f_{optim} = f_{init} + f_{precomp} + f_{fill}.
+	\label{eq3:11}
+\end{equation}
+где:
+\begin{itemize}
+	\item $f_{init}$ - определяется по формуле (\ref{eq3:7}) в добавок с другими компонентами (\ref{eq3:12});
+	\begin{equation}
+		f_{init} = 4 + 4M + 4Q + {\underset{=}{2}} + {\underset{\%}{2}} + {\underset{-}{1}} + {\underset{==}{1}} + 
+		\begin{cases}
+			{\underset{-=}{1}},\\
+			0
+		\end{cases} = 7 + 4M + 4Q + \begin{cases}
+			{\underset{-=}{1}},\\
+			0
+		\end{cases}.
+		\label{eq3:12}
+	\end{equation}
+	
+	\item $f_{precomp}$ - трудоемкость предварительного заполнения строк матрицы $А$ и столбцов матрицы $B$ (\ref{eq3:13}):
+	\begin{multline}
+		f_{precomp} = {\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{=}{2}} + {\underset{<}{1}} + N({\underset{+=}{1}} + {\underset{<<}{1}} + {\underset{+}{1}} + {\underset{[\ ]}{4}}) + {\underset{[\ ]}{1}} + {\underset{=}{1}}) + \\
+		+ {\underset{=}{1}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{=}{2}} + {\underset{<}{1}} + N({\underset{+=}{1}} + {\underset{[\ ]}{4}} + {\underset{<<}{1}} + {\underset{+}{1}}) + {\underset{=}{1}}) = \\
+		= 2 + 7M + 7MN + 2 + 5Q + 8NQ = 9MN + 9NQ + 7M + 5Q + 4;
+		\label{eq3:13}
+	\end{multline}
+	
+	\item $f_{fill}$ - трудоемкость для заполнения матрицы (\ref{eq3:14}):
+	\begin{multline}
+		f_{fill} = {\underset{=}{1}} + {\underset{<}{1}} + M({\underset{++}{2}} + {\underset{=}{2}} + {\underset{<}{1}} + Q({\underset{++}{2}} + {\underset{=}{2}} + {\underset{-}{1}} + {\underset{+}{1}} + {\underset{[\ ]}{2}} + {\underset{<}{1}} + \\
+		+ \frac{N}{2}({\underset{+=}{2}} + {\underset{[\ ]}{8}} + {\underset{+}{4}} + {\underset{<<}{1}}) + {\underset{==}{1}} 
+		+  \begin{cases}
+			{\underset{+=}{1}} + {\underset{[ \ ]}{4}} + {\underset{<<}{1}}\\
+			0
+		\end{cases} + {\underset{[\ ]}{2}} + {\underset{=}{1}})) = \\
+		= 2 + M(4 + Q(\frac{15}{2}) + 13 + \begin{cases}
+			6\\
+			0
+		\end{cases})) = \\
+		8.5MNQ + 14MQ + 4M + 2 + \begin{cases}
+			6\\
+			0
+		\end{cases} MQ;
+		\label{eq3:14}
+	\end{multline}
+	Результирующая трудоемкость оптимизированного алгоритма Винограда для лучшего и худшего случая составляет (\ref{eq3:15}):
+	\begin{equation}
+		f_{fill} \approx 8.5MNQ.
+		\label{eq3:15}
+	\end{equation}
+	
+\end{itemize}
+
+\subsection{Алгоритм Штрассена}
+
+Введем размер $S$ -- ближайшая степень двойки, которая больше или равна размерам матриц $A$ и $B$.
+
+Для алгоритма умножения матриц Штрассена трудоемкость будет складываться из следующих шагов:
+\begin{enumerate}
+	\item Создания и инициализации матриц $a_{new}$ и $b_{new}$, трудоемкость \text{которого (\ref{for:init_s})}:
+	\begin{equation}
+		\label{for:init_s}
+		f_{init} = f_{a\_new} + f_{b\_new} = 2 * S.
+	\end{equation}
+	\item Заполнения матрицы a\_new, трудоемкость которого (\ref{for:a_new}):
+	\begin{equation}
+		\label{for:a_new}
+		f_{fill_a} = 2 + M (4 + K \cdot 5).
+	\end{equation}
+	\item Заполнения матрицы b\_new, трудоемкость которого (\ref{for:b_new}):
+	\begin{equation}
+		\label{for:b_new}
+		f_{fill_b} = 2 + K (4 + N \cdot 5).
+	\end{equation}
+	\item Вызова рекурсивной функции Штрассена, трудоемкость которого 0 и трудоемкости этой функции, которую посчитаем отдельно;
+	\item Заполнения матрицы C, трудоемкость которого (\ref{for:c_new}):
+	\begin{equation}
+		\label{for:c_new}
+		f_{fill_c} = 2 + M \cdot 3.
+	\end{equation}
+\end{enumerate}
+
+Вычислим трудоемкость рекурсивной функции Штрассена. Пусть $n$ -- размер матриц, которые передаются в эту функцию, тогда трудоемкость состоит из:
+\newpage
+\begin{enumerate}
+	\item Создания и инициализации матриц $a_{11}, a_{12}, a_{21}, a_{22}, b_{11}, b_{12}, b_{21}, b_{22}$, трудоемкость (\ref{for:init_s_r}):
+	\begin{equation}
+		\label{for:init_s_r}
+		f_{init} = 8 \cdot (\frac{n}{2} + \frac{n}{2}) = 8n.
+	\end{equation}
+	\item Заполнения этих матриц, трудоемкость (\ref{for:fill_r}):
+	\begin{equation}
+		\label{for:fill_r}
+		f_{fill} = 16 + 20n.
+	\end{equation}
+	\item Вызова функции Штрассена 7 раз, трудоемкость которых 0, при этом трудоемкость вычисления передаваемых параметров (\ref{for:calc}):
+	\begin{equation}
+		\label{for:calc}
+		f_{calc\_param} = 10 \cdot (2 + n + 2n^2).
+	\end{equation}
+	\item Вычисления подматриц результата, трудоемкость (\ref{for:calc_res}):
+	\begin{equation}
+		\label{for:calc_res}
+		f_{calc\_res} = 8 \cdot (2 + n + 2n^2).
+	\end{equation}
+	\item Составления результирующей матрицы, трудоемкость (\ref{for:res}):
+	\begin{equation}
+		\label{for:res}
+		f_{res} = 4 + 4n.
+	\end{equation}
+\end{enumerate}
+
+Таким образом, общая трудоемкость алгоритма Штрассена (\ref{for:sht}):
+\begin{equation}
+	\label{for:sht}
+	f_{sht} = 6 + 2S + 7M + 5MK + 5NK + \limits\sum_{n=1}^{n/2}{52 + 28n + 36n^2}
+\end{equation}
+
+Сумма происходит для $n$ по степеням двойки от 1 до $n/2$.
+
+
+\section{Структура программы}
+Программа состоит из следующих модулей:
+\begin{itemize}
+	\item main.py: основной файл программы, в котором вызываются алгоритмы умножения матриц;
+	\item matrix.py: файл, содержащий код всех представленных алгоритмов умножения матриц;
+	\item test\_time.py: замер времени выполнения каждого из алгоритмов;
+	\item graph.py: файл отображение результатов замеров зависимости времени работы алгоритмов умножения матриц от размера матрицы;
+	\item menu.py: перечень команд для взаимодействия с программой.
+\end{itemize}
+
+\section*{Вывод}
+В данном разделе были приведены схемы алгоритмов умножения матриц стандартным образом, Винограда, Штрассена, проведена теоретическая оценка трудоемкости алгоритмов. Стандартный алгоритм умножения матриц имеет трудоемкость $14MNQ$, стандартный по Винограду $16MNQ$, оптимизированный по Винограду $8.5MNQ$.

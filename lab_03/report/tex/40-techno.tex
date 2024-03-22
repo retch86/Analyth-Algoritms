@@ -1,0 +1,54 @@
+\chapter{Технологический раздел}
+В разделе рассматриваются средства реализации, а также приводятся листинги алгоритмов сортировки <<блинная>>, <<быстрая>>, <<выбором>>.
+
+\section{Средства реализации}
+В работе для реализации алгоритмов был выбран язык программирования Python \cite{python}. В нем присутствуют библиотека time \cite{process_time} для замера процессорного времени process\_time(), а также для замера используемой памяти при помощи декоратора profiler \cite{profiler}.
+
+\section{Модули программы}
+\subsection{Блинная сортировка}
+Реализация блинной сортировки приведена на листинге \ref{lst:pancake_sort}.
+\lstinputlisting[label=lst:pancake_sort, caption=Блинная сортировка, basicstyle=\footnotesize, numbers=none]{lst/pancake_sort.py}
+Блинная сортировка использует функцию переворачивания элементов flip() (листинг \ref{lst:flip}) и нахождение индекса первого максимального элемента \text{(листинг \ref{lst:max_index})}.
+\lstinputlisting[label=lst:flip, caption=Переворачивание элементов массива, basicstyle=\footnotesize, numbers=none]{lst/flip.py}
+\newpage
+\lstinputlisting[label=lst:max_index, caption=Нахождение первого максимального элемента, basicstyle=\footnotesize, numbers=none]{lst/max_index.py}
+\subsection{Быстрая сортировка}
+Реализация быстрой сортировки приведена на листинге \ref{lst:quick_sort}.
+\lstinputlisting[label=lst:quick_sort, caption=Быстрая сортировка, basicstyle=\footnotesize, numbers=none]{lst/quick_sort.py}
+Быстрая сортировка использует функцию partition() разделения элементов массива на две части с упорядочиванием значений относительно опорного элемента (листинг \ref{lst:partition}).
+\lstinputlisting[label=lst:partition, caption=Разделение элементов массива на две части с обменом, basicstyle=\footnotesize, numbers=none]{lst/partition.py}
+\subsection{Сортировка выбором}
+Реализация сортировки выбором приведена на листинге \ref{lst:select_sort}.
+\lstinputlisting[label=lst:select_sort, caption=Сортировка выбором, basicstyle=\footnotesize, numbers=none]{lst/select_sort.py}
+
+\section{Тестирование}
+Для тестирования используется метод черного ящика. В данном разделе приведена таблица \ref{table:ref2}, в которой указаны классы эквивалентностей тестов: \\
+
+\begin{table}[H]
+	\centering
+	\captionsetup{singlelinecheck = false, justification=raggedleft}
+	\caption{Тесты}
+	\label{table:ref2}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		\multirow{3}{*}{№} & \multirow{3}{*}{Описание теста} & \multirow{3}{*}{Вход} & \multicolumn{3}{c|}{Результат}\\ \cline{4-6}
+		&                &          &Блинная          &Быстрая  &Выбором	\\
+		\hline
+		1& Один элемент  &  1      &    1      &   1         &  1 						\\ \hline
+		\multirow{2}{*}{2}& \multirow{2}{*}{Отсортированный} & \multirow{2}{*}{1,2,3,4,5} & \multirow{2}{*}{1,2,3,4,5} & \multirow{2}{*}{1,2,3,4,5}   &  \multirow{2}{*}{1,2,3,4,5}                      
+		\\
+		& массив        &          &            &             &
+		\\ \hline
+		\multirow{2}{*}{2}& \multirow{2}{*}{Отсортированный} & \multirow{2}{*}{5,4,3,2,1} & \multirow{2}{*}{1,2,3,4,5} & \multirow{2}{*}{1,2,3,4,5}   &  \multirow{2}{*}{1,2,3,4,5}                      
+		\\
+		& в обратном порядке        &          &            &             &
+		\\ \hline
+		\multirow{2}{*}{2}& \multirow{2}{*}{Случайные} & \multirow{2}{*}{-8,3,1,6,-2} & \multirow{2}{*}{-8,-2,1,3,6} & \multirow{2}{*}{-8,-2,1,3,6}   &  \multirow{2}{*}{-8,-2,1,3,6}                      
+		\\
+		& числа        &          &            &             &
+		\\ \hline
+	\end{tabular}
+\end{table}
+
+\section*{Вывод}
+В данном разделе был обоснован выбор языка программирования. Реализованы функции сортировки <<блинная>>, <<быстрая>>, <<выбором>>, и проведено их тестирование методом черного ящика по таблице \ref{table:ref2}. 

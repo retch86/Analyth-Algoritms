@@ -1,0 +1,58 @@
+\chapter{Технологический раздел}
+В данном разделе рассматриваются средства реализации, а также приводятся листинги алгоритмов определения расстояния Левенштейна и Дамерау-Левенштейна
+
+\section{Средства реализации}
+В работе для реализации алгоритмов был выбран язык программирования Python \cite{python}. В нем присутствуют библиотека time \cite{process_time} для замера процессорного времени process\_time(), а также для замера используемой памяти при помощи cProfiler() \cite{profiler}.
+
+\section{Формат входных и выходных данных}
+Входными данными являются две строки типа str, которые запрашиваются у пользователя. На выходе в результате обработки будет получено число типа int -- расстояние Левенштейна. В матричных реализациях алгоритмов Левенштейна используется матрица, являющая двумерным списком типа int.
+
+\section{Модули программы}
+\subsection{Расстояние Левенштейна}
+Определение расстояния Левенштейна итеративно с использованием двух строк приведено на листинге \ref{lst:iter_levenstein}.
+\newpage
+\lstinputlisting[label=lst:iter_levenstein, caption=Определение расстояния Левенштейна итеративно с использованием двух строк, basicstyle=\footnotesize, numbers=none]{lst/iter_levenstein.py}
+
+Определение расстояния Левенштейна рекурсивно без использования кэша приведено на листинге \ref{lst:recur_levenstein_no_cache}.
+\lstinputlisting[label=lst:recur_levenstein_no_cache, caption=Определение расстояния Левенштейна рекурсивно без использования кэша, basicstyle=\footnotesize, numbers=none]{lst/recur_levenstein_no_cache.py}
+
+Определение расстояния Левенштейна рекурсивно с использованием матрицы приведено на листинге \ref{lst:recur_levenstein_mtrx_cache}.
+\newpage
+\lstinputlisting[label=lst:recur_levenstein_mtrx_cache, caption=Определение расстояния Левенштейна рекурсивно с использованием матрицы, basicstyle=\footnotesize, numbers=none]{lst/recur_levenstein_mtrx_cache.py}
+
+\subsection{Расстояние Дамерау-Левенштейна}
+Определение расстояния Дамерау-Левенштейна рекурсивно приведено на листинге \ref{lst:recur_damerau_levenstein}.
+
+\lstinputlisting[label=lst:recur_damerau_levenstein, caption=Определение расстояния Дамерау-Левенштейна рекурсивно, basicstyle=\footnotesize, numbers=none]{lst/recur_damerau_levenstein.py}
+
+\subsection{Вспомогательные функции}
+Создание кэша в виде строки приведено на листинге \ref{lst:create_row}.
+\lstinputlisting[label=lst:create_row, caption=Создание кэша в виде строки, basicstyle=\footnotesize, numbers=none]{lst/create_row.py}
+
+\section{Тестирование}
+Для тестирования используется метод черного ящика. В данном разделе приведена таблица \ref{table:ref1}, в которой указаны классы эквивалентностей тестов. \\
+
+\begin{table}[H]
+	\centering
+	\captionsetup{singlelinecheck = false, justification=raggedleft}
+	\caption{Таблица тестов}
+	\label{table:ref1}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		\multirow{3}{*}{№} & \multirow{3}{*}{Описание теста} & \multirow{3}{*}{Слово 1}  &  \multirow{3}{*}{Слово 2}   & \multicolumn{2}{|c|}{Алгоритм}\\ \cline{5-6}
+		&                &          &            &\multirow{2}{*}{Левенштейн}   &Дамерау-	\\ 
+		&                &          &            &             &Левенштейн       	        \\ \hline
+		1& Пустые строки  &  ''      &    ''      &   0         &  0 						\\ \hline
+		\multirow{2}{*}{2}& Нет повторяющихся & \multirow{2}{*}{deepcopy} & \multirow{2}{*}{раздел} & \multirow{2}{*}{8}   &  \multirow{2}{*}{8}                      
+		\\
+		& символов        &          &            &             &
+		\\ \hline
+		3& Инверсия строк & insert   &tresni      &   6         &  6                       \\ \hline
+		4& Два соседних символа       & heart    & heatr  & 2   &  1                       \\ \hline
+		5& Одинаковые строки          & таблица  & таблица& 0   &  0						\\ \hline
+		\multirow{2}{*}{6}& Одна строка &\multirow{2}{*}{город} &\multirow{2}{*}{горо} & \multirow{2}{*}{1} & \multirow{2}{*}{1} \\  
+		& меньше другой   &           &           &      &\\ \hline
+	\end{tabular}
+\end{table}
+\section*{Вывод}
+В данном разделе был обоснован выбор языка программирования, используемых функций библиотек. Реализованы функции, описанные в разделах 1 и 2, проведено их тестирование методом черного ящика по таблице \ref{table:ref1}. 

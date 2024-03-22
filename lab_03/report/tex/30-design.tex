@@ -1,0 +1,171 @@
+\chapter{Конструкторский раздел}
+В разделе приводятся схемы алгоритмов сортировок <<блинная>>, <<быстрая>>, <<выбором>>, а также трудоемкость каждого из них в лучшем и худшем случаях.
+\section{Схемы алгоритмов сортировки}
+\subsection{Блинная сортировка}
+На рисунке \ref{img:pancake_sort} представлен алгоритм блинной сортировки. 
+\imgw{pancake_sort.pdf}{Алгоритм блинной сортировки}{img:pancake_sort}{\textwidth}
+\subsection{Быстрая сортировка}
+На рисунке \ref{img:quick_sort} представлен алгоритм быстрой сортировки. 
+\imgw{quick_sort.pdf}{Алгоритм быстрой сортировки}{img:quick_sort}{\textwidth}
+\subsection{Сортировка выбором}
+На рисунке \ref{img:select_sort} представлен алгоритм сортировки выбором. 
+\imgw{select_sort.pdf}{Алгоритм сортировки выбором}{img:select_sort}{0.8\textwidth}
+
+\section{Модель оценки трудоемкости алгоритмов}
+Введем модель оценки трудоемкости.
+
+\begin{enumerate}
+	\item Трудоемкость базовых операций.
+	Пусть трудоемкость следующих операций равна 2: 
+	$$*, /, //, \%, *=, /=. $$
+	
+	Примем трудоемкость следующих операций равной 1:
+	$$=, +, -, +=, -=, ==, !=, <, >, <=, >=, |, \&\&, ||, [].$$  
+	\item Трудоемкость цикла.
+	Пусть трудоемкость цикла определяется по \text{формуле (\ref{eq1})}:
+	\begin{equation}
+		\label{eq1} 
+		f = f_{init} + f_{comp} + N_{iter} * (f_{in} + f_{inc} + f_{comp}),
+	\end{equation} 
+	где:
+	\begin{itemize}
+		\item $f_{init}$: трудоемкость инициализации переменной-счетчика;
+		\item $f_{comp}$: трудоемкость сравнения;
+		\item $N_{iter}$: номер выполняемой итерации;
+		\item $f_{in}$: трудоемкость команд из тела цикла;
+		\item $f_{inc}$: трудоемкость инкремента;
+		\item $f_{comp}$: трудоемкость сравнения.
+	\end{itemize}
+	\item Трудоемкость условного оператора. \\
+	Пусть трудоемкость самого условного перехода равна 0, но она определяется по формуле (\ref{eq2}): 
+	\begin{equation}
+		\label{eq2}
+		f_{if} = f_{comp\_if} + \begin{cases}
+			f_{a}\\
+			f_{b}\\
+		\end{cases}.
+	\end{equation}
+\end{enumerate}
+
+\section{Трудоемкость алгоритмов сортировки}
+\subsection{Блинная сортировка}
+Трудоемкость блинной сортировки содержит следующие части:
+\begin{itemize}
+	\item поиск максимального элемента до $k$-ой позиции (\ref{eq:pancake_eq1}):
+	\begin{equation}
+		\label{eq:pancake_eq1}
+		f_{max} = {\underset{=}{1}} + k \cdot ({\underset{[\ ]}{1}} + {\underset{[\ ]}{1}} + {\underset{>}{1}} +\begin{cases}
+			0, \text{  лучший случай}\\
+			{\underset{=}{1}}, \text{  худший случай}
+		\end{cases} + {\underset{+=}{1}}).
+	\end{equation}
+
+	\item трудоемкость операции обмена $f_{swap}$ (\ref{eq:pancake_eq2}): 
+	\begin{equation}
+		\label{eq:pancake_eq2}
+		f_{swap} = {\underset{=}{3}} + {\underset{[\ ]}{4}} = 7;
+	\end{equation}
+
+	\item переворачивание элементов $f_{flip}$ (\ref{eq:pancake_eq3}):
+	\begin{equation}
+		\label{eq:pancake_eq3}
+		f_{flip} = {\underset{=}{1}} + \begin{cases}
+			{\underset{=}{1}}, &\text{  лучший случай}\\
+			k \cdot ({\underset{f_{swap}}{7}} + {\underset{-=}{1}} + {\underset{+=}{1}}),& \text{  худший случай}
+		\end{cases};
+	\end{equation} 
+
+	\item тело сортировки $f_{body}$ (\ref{eq:pancake_eq4}):
+	\begin{equation}
+		\label{eq:pancake_eq4}
+		f_{body} = {\underset{>}{1}} + n \cdot 
+			({f_{max}} + {\underset{!=}{1}} + {\underset{-}{1}} +
+			\begin{cases}
+					0, \\
+					{\underset{!=}{1}} + 
+					\begin{cases}
+						0, \\ 
+						f_{flip},
+					\end{cases} 
+				\end{cases} \hspace{-1.5cm} +  f_{flip} + {\underset{-}{1}} + {\underset{-=}{1}}).
+	\end{equation}
+Таким образом, в лучшем случае получим выражение $f$ (\ref{eq:pancake_eq5}):
+\begin{equation}
+	\label{eq:pancake_eq5}
+	f = n \cdot({\underset{>}{1}} + f_{max} + {\underset{-}{1}} + {\underset{-=}{1}}) \approx n.
+\end{equation}
+
+Для худшего случая (отсортированный в обратном порядке массив) получим выражение $f$ (\ref{eq:pancake_eq6}):
+\begin{equation}
+	\label{eq:pancake_eq6}
+	f = n \cdot({\underset{>}{1}} + {\underset{=}{1}} + k \cdot ({\underset{[\ ]}{1}} + {\underset{[\ ]}{1}} + {\underset{=}{1}} + {\underset{-}{1}} + {\underset{-=}{1}}) + {\underset{=}{1}} + k \cdot ({\underset{f_{swap}}{7}} + {\underset{-=}{1}} + {\underset{+=}{1}})) \approx nk.
+\end{equation}
+
+Для случая, когда $k = n$ получим (\ref{eq:pancake_eq7}):
+\begin{equation}
+	\label{eq:pancake_eq7}
+	f \approx n^2.
+\end{equation}
+
+\end{itemize}
+\subsection{Быстрая сортировка}
+Быстрая сортировка может быть реализована как в рекурсивном варианте, так и в итеративном. Сложность для лучшего случая составляет $n log(n)$, в худшем -- $n^2$.
+\subsection{Выбором}
+Трудоемкость алгоритма сортировки выбором содержит следующие части:
+\begin{itemize}
+	\item внешний цикл $f_i$ от 1 до $n$ (\ref{eq:select_eq1}):
+	\begin{equation}
+		\label{eq:select_eq1}
+		f_i = {\underset{=}{1}} + {\underset{-}{1}} + {\underset{<}{1}}(n - 1)\cdot({\underset{=}{1}} + {\underset{<}{1}} + {\underset{+}{1}} + f_{swap} + f_{init\ j}) = 2 + (n - 1)\cdot(3 + f_{swap} + f_{init\ j});
+	\end{equation}
+	\item трудоемкость операции обмена $f_{swap}$ (\ref{eq:select_eq2}): 
+	\begin{equation}
+		\label{eq:select_eq2}
+		f_{swap} = {\underset{=}{3}} + {\underset{[\ ]}{4}} = 7;
+	\end{equation}
+	\item внутренний цикл $f_j$ от $i+1$ до $n$ (\ref{eq:select_eq3}):
+	\begin{equation}
+		\label{eq:select_eq3}
+		f_j = \frac{1 + n - 1}{2} \cdot (n -1) ({\underset{[\ ]}{2} + {\underset{=}{1}}} + f_{\text{усл}}) = \frac{n^2 - n}{2} \cdot(3 + f_{\text{усл}});
+	\end{equation} 
+	\item тело условия $f_{\text{усл}}$ (худший случай):
+	\begin{equation}
+		f_{\text{усл}} = 1.
+	\end{equation}
+	
+\end{itemize}
+
+Таким образом, для лучшего случая (отсортированный массив) получим выражение (\ref{eq:selection_best}):
+\begin{equation} \label{eq:selection_best}
+	\begin{array}{ll}
+		f = 2 + (n-1)\cdot(3+9+3) + \displaystyle\frac{n^2-n}{2} \cdot(3+0) = \frac{3}{2} n^2 + \frac{23}{2}n^2 - 11 \approx \frac{3}{2}n^2.
+	\end{array}
+\end{equation}
+
+Для худшего случая (отсортированный в обратном порядке массив) получим выражение (\ref{eq:selection_worst}):
+\begin{equation} \label{eq:selection_worst}
+	\begin{array}{ll}
+		f = 2 + (n - 1)\cdot(3 + 9 + 3) + \displaystyle\frac{n^2 - n}{2} \cdot(3 + 1) = 2n^2 + 12n - 13 \approx 2n^2.
+	\end{array}
+\end{equation}
+
+\section*{Вывод}
+На основе теоретических данных, полученных в аналитическом разделе, были построены схемы нужных алгоритмов. Определена трудоемкость каждого из трех алгоритмов для анализа худшего и лучшего случаев асимптотической сложности, которая приведена в таблице \ref{table:ref1}:
+\begin{table}[ht!]
+	\centering
+	\captionsetup{singlelinecheck = false, justification=raggedleft}
+	\caption{Сложность алгоритмов.}
+	\label{table:ref1}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\multirow{2}{*}{Алгоритм}& \multicolumn{2}{c|}{Сложность} \\ \cline{2-3} 
+		& Лучший случай & Худший случай \\
+		\hline
+		Блинная & $O(n)$  & $O(n^2)$ \\
+		\hline
+		Быстрая & $O(nlog_{2}(n))$  & $O(n^2)$ \\
+		\hline
+		Выбором & $O(n^2)$  & $O(n^2)$ \\
+		\hline
+	\end{tabular}
+\end{table}
